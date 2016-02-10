@@ -24,6 +24,6 @@
   "source": "git@github.com:jaschac/puppet-nginx.git",
   "summary": "A Puppet module to install, configure and deploy the Nginx webserver. ",
   "tags" : ["nginx", "load balancer", "proxy", "webserver"],
-  "version" : "0.0.2"
+  "version" : "0.1.1"
 }
 
