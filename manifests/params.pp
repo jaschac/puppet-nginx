@@ -6,6 +6,6 @@ class nginx::params
         String,
         String
       ]
-    ] $extra_dependencies,
+    ] $extra_dependencies = {}
   ){
   }
