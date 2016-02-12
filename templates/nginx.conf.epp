@@ -1,9 +1,29 @@
-user www-data;
-worker_processes 2;
-pid /var/run/nginx.pid;
+<% if $config['user'] != undef { -%>
+user 			<%= $config['user'] %>;
+<% } -%>
+<% else { -%>
+user 			www-data;
+<% } -%>
+<% if $config['worker_processes'] != undef { -%>
+worker_processes	<%= $config['worker_processes'] %>;
+<% } -%>
+<% else { -%>
+worker_processes	2;
+<% } -%>
+<% if $config['pid'] != undef { -%>
+pid			<%= $config['pid'] %>;
+<% } -%>
+<% else { -%>
+pid 			/var/run/nginx.pid;
+<% } -%>
 
 events {
-        worker_connections 768;
+<% if $config['worker_connections'] != undef { -%>
+	worker_connections	<%= $config['worker_connections'] %>;
+<% } -%>
+<% else { -%>
+        worker_connections 	768;
+<% } -%>
 }
 
 http {
@@ -24,7 +44,12 @@ http {
         gzip_disable "msie6";
 
         # Max upload file size
-	client_max_body_size 15M;
+<% if $config['client_max_body_size'] != undef { -%>
+	client_max_body_size	<%= $config['client_max_body_size'] %>;
+<% } -%>
+<% else { -%>
+	client_max_body_size 	15M;
+<% } -%>
 
         # Virtual Host Configs
         include /etc/nginx/sites-enabled/*;
