@@ -1,0 +1,56 @@
+<% if $config['user'] != undef { -%>
+user 			<%= $config['user'] %>;
+<% } -%>
+<% else { -%>
+user 			www-data;
+<% } -%>
+<% if $config['worker_processes'] != undef { -%>
+worker_processes	<%= $config['worker_processes'] %>;
+<% } -%>
+<% else { -%>
+worker_processes	2;
+<% } -%>
+<% if $config['pid'] != undef { -%>
+pid			<%= $config['pid'] %>;
+<% } -%>
+<% else { -%>
+pid 			/var/run/nginx.pid;
+<% } -%>
+
+events {
+<% if $config['worker_connections'] != undef { -%>
+	worker_connections	<%= $config['worker_connections'] %>;
+<% } -%>
+<% else { -%>
+        worker_connections 	768;
+<% } -%>
+}
+
+http {
+	sendfile on;
+	tcp_nopush on;
+	tcp_nodelay on;
+	keepalive_timeout 65;
+	types_hash_max_size 2048;
+
+        include /etc/nginx/mime.types;
+        default_type application/octet-stream;
+
+        # Logging Settings
+        access_log /var/log/nginx/access.log;
+        error_log /var/log/nginx/error.log;
+
+        gzip on;
+        gzip_disable "msie6";
+
+        # Max upload file size
+<% if $config['client_max_body_size'] != undef { -%>
+	client_max_body_size	<%= $config['client_max_body_size'] %>;
+<% } -%>
+<% else { -%>
+	client_max_body_size 	15M;
+<% } -%>
+
+        # Virtual Host Configs
+        include /etc/nginx/sites-enabled/*;
+}
