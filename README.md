@@ -35,7 +35,7 @@ The `lostinmalloc-nginx` module is **not**  responsible of:
 
   - Providing virtual host configuration files. The client is responsible of placing them in the default `/etc/nginx/sites-enabled/` directory.
   - Making sure any virtual host being server is properly configured.
-  - Taking down the default virtual host installed with Nginx as an example. This is defined in `/etc/nginx/sites-available/default` and is soft linked into `/etc/nginx/sites-enabled/`.
+  - Taking down the `default` virtual host installed with Nginx as an example. This is defined in `/etc/nginx/sites-available/default` and is soft linked into `/etc/nginx/sites-enabled/`.
 
 ## Setup
 In order to install `lostinmalloc-nginx`, run the following command:
@@ -56,13 +56,21 @@ In terms of **requirements** `lostinmalloc-nginx` demands:
   - `puppet >=4.0.0`
 
 ## Usage
-As aforementioned, `lostinmalloc-nginx` expects all the data to be provided through `Hiera`.
+As aforementioned, `lostinmalloc-nginx` expects all the data to be provided through `Hiera`. In the example below, we are going to set the following:
 
-@TODO
+  - We are installing an extra dependency, `cmatrix`, through APT.
+
+```bash
+---
+nginx::params::extra_dependencies:
+  cmatrix: 'apt'
+```
 
 ## Reference
 Attributes written *in italic*, are optional:
-@TODO
+
+  - `extra_dependencies`: a hash representing extra dependencies that the client wants to install. The information must be provided in the form package_name : provider. lostinmalloc-nginx takes care to merge both the mandatory and the extra dependencies into a unique hash and install any of the dependencies that are currently not present.
+
 
 ## Limitations
 `lostinmalloc-nginx` has been developed and tested on the following setup(s):
