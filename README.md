@@ -59,11 +59,23 @@ In terms of **requirements** `lostinmalloc-nginx` demands:
 As aforementioned, `lostinmalloc-nginx` expects all the data to be provided through `Hiera`. In the example below, we are going to set the following:
 
   - We are installing an extra dependency, `cmatrix`, through APT.
+  - We are customizing Nginx so that:
+    - It will accept upload files up to 15 MB.
+    - Will store the pid in `/var/run/nginx.pid`.
+    - Will be executed as the `www-data` user.
+    - Will have 8 workers.
+    - Each worker will handle up to 768 connections.
 
 ```bash
 ---
 nginx::params::extra_dependencies:
   cmatrix: 'apt'
+nginx::params::config:
+  client_max_body_size: '15M'
+  pid: '/var/run/nginx.pid'
+  user: 'www-data'
+  worker_connections: '768'
+  worker_processes: '8'
 ```
 
 ## Reference
